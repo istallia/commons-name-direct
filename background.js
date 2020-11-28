@@ -1,3 +1,4 @@
+/* ヘッダの書き換え */
 if (typeof browser === 'undefined') browser = chrome;
 browser.webRequest.onHeadersReceived.addListener(details => {
 	// refererを 'http://example.com/' に書き換え:
@@ -13,7 +14,13 @@ browser.webRequest.onHeadersReceived.addListener(details => {
 	'blocking'
 ]);
 
-/* details.requestHeaders内のレスポンスヘッダを更新する関数 */
+/* IDとタイトルのキャッシュを作成する */
+browser.runtime.onMessageExternal.addListener((message, sender) => {
+	sessionStorage.setItem('commons-'+message.material_id, message.material_title);
+	console.log('commons-'+message.material_id, message.material_title);
+});
+
+/* details.responseHeaders内のレスポンスヘッダを更新する関数 */
 function setResponseHeader(details, key, val) {
 	key = key.toLowerCase();
 	for (let n in details.responseHeaders) {
