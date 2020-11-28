@@ -9,10 +9,16 @@
 		"48"  : "icon_48.png",
 		"128" : "icon_128.png"
 	},
+	"background": {
+		"scripts": [
+			"background.js"
+		],
+		"persistent": true
+	},
 	"permissions" : [
 		"http://deliver.commons.nicovideo.jp/download/*",
 		"https://deliver.commons.nicovideo.jp/download/*",
 		"webRequest",
-    "webRequestBlocking"
+		"webRequestBlocking"
 	]
 }
