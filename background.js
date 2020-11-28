@@ -1,0 +1,30 @@
+if (typeof browser === 'undefined')
+browser.webRequest.onResponseStarted.addListener(details => {
+	// refererを 'http://example.com/' に書き換え:
+	putReqHeader(details, 'Content-Disposition', 'attachment;');
+
+	return {
+		responseHeaders: details.responseHeaders,
+	};
+}, {
+	urls: ['https://deliver.commons.nicovideo.jp/download/*', 'http://deliver.commons.nicovideo.jp/download/*'],
+}, [
+	'responseHeaders',
+	'blocking'
+]);
+
+/** details.requestHeaders内のリクエストヘッダを更新する関数 */
+function putReqHeader(details, key, val) {
+	key = key.toLowerCase();
+	for (let n in details.responseHeaders) {
+		const got = details.responseHeaders[n].name.toLowerCase() == key;
+		if (got) {
+			details.responseHeaders[n].value = val;
+			return;
+		}
+	}
+	details.responseHeaders.push({
+		name: key,
+		value: val,
+	});
+}
