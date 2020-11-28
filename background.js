@@ -15,7 +15,7 @@ browser.webRequest.onHeadersReceived.addListener(details => {
 ]);
 
 /* --- IDとタイトルのキャッシュを作成する --- */
-browser.runtime.onMessageExternal.addListener((message, sender) => {
+browser.runtime.onMessage.addListener((message, sender) => {
 	sessionStorage.setItem('commons-'+message.material_id, message.material_title);
 	console.log('commons-'+message.material_id, message.material_title);
 });

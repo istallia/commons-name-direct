@@ -11,7 +11,7 @@
 	},
 	"content_scripts": [
 		{
-			"matches": ["http://deliver.commons.nicovideo.jp/download/*", "https://deliver.commons.nicovideo.jp/download/*"],
+			"matches": ["http://commons.nicovideo.jp/material/*", "https://commons.nicovideo.jp/material/*"],
 			"js": ["content-script.js"]
 		}
 	],
@@ -24,6 +24,8 @@
 	"permissions" : [
 		"http://deliver.commons.nicovideo.jp/download/*",
 		"https://deliver.commons.nicovideo.jp/download/*",
+		"http://commons.nicovideo.jp/material/*",
+		"https://commons.nicovideo.jp/material/*",
 		"webRequest",
 		"webRequestBlocking"
 	]
