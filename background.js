@@ -1,5 +1,5 @@
-if (typeof browser === 'undefined')
-browser.webRequest.onResponseStarted.addListener(details => {
+if (typeof browser === 'undefined') browser = chrome;
+browser.webRequest.onHeadersReceived.addListener(details => {
 	// refererを 'http://example.com/' に書き換え:
 	putReqHeader(details, 'Content-Disposition', 'attachment;');
 
