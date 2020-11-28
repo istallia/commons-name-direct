@@ -16,8 +16,8 @@ browser.webRequest.onHeadersReceived.addListener(details => {
 
 /* --- IDとタイトルのキャッシュを作成する --- */
 browser.runtime.onMessage.addListener((message, sender) => {
-	sessionStorage.setItem('commons-'+message.material_id, message.material_title);
-	console.log('commons-'+message.material_id, message.material_title);
+	sessionStorage.setItem('commons-'+message.material_id, replaceSpecialChars(message.material_title));
+	console.log('commons-'+message.material_id, replaceSpecialChars(message.material_title));
 });
 
 /* --- details.responseHeaders内のレスポンスヘッダを更新する関数 --- */
@@ -46,4 +46,23 @@ function getResponseHeader(details, key) {
 		}
 	}
 	return null;
+}
+
+/* --- ファイル名に使えない文字を全角に直す --- */
+function replaceSpecialChars(filename) {
+	chars = ["\\",'/',':','*','?','a',"<",">",'|']
+	const chars = {
+		'\\' : '＼',
+		'/' : '／',
+		':' : '：',
+		'*' : '＊',
+		'?' : '？',
+		'<' : '＜',
+		'>' : '＞',
+		'|' : '｜'
+	};
+	for (let char in chars) {
+		filename = filename.replace(char, chars[char]);
+	}
+	return filename;
 }
