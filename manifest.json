@@ -9,6 +9,12 @@
 		"48"  : "icon_48.png",
 		"128" : "icon_128.png"
 	},
+	"content_scripts": [
+		{
+			"matches": ["http://deliver.commons.nicovideo.jp/download/*", "https://deliver.commons.nicovideo.jp/download/*"],
+			"js": ["content-script.js"]
+		}
+	],
 	"background": {
 		"scripts": [
 			"background.js"
