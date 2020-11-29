@@ -21,6 +21,9 @@
 		],
 		"persistent": true
 	},
+	"options_ui" : {
+		"page" : "options.html"
+	},
 	"permissions" : [
 		"http://deliver.commons.nicovideo.jp/download/*",
 		"https://deliver.commons.nicovideo.jp/download/*",
