@@ -14,11 +14,20 @@ browser.webRequest.onHeadersReceived.addListener(details => {
 	'blocking'
 ]);
 
-/* --- IDとタイトルのキャッシュを作成する --- */
-browser.runtime.onMessage.addListener((message, sender) => {
+/* --- 拡張機能の各要素からのメッセージに反応する --- */
+browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
+	/* IDとタイトルのキャッシュを作成する */
 	if (message.content === 'material-id') {
 		sessionStorage.setItem('commons-'+message.material_id, replaceSpecialChars(message.material_title));
-		console.log('commons-'+message.material_id, replaceSpecialChars(message.material_title));
+		// console.log('commons-'+message.material_id, replaceSpecialChars(message.material_title));
+	}
+	/* オプションを送り返す */
+	if (message.content === 'get-option') {
+		sendResponse({
+			'copy-title'    : true,
+			'title-pattern' : '${title} (${id})'
+		});
+		return true;
 	}
 });
 
@@ -52,7 +61,6 @@ function getResponseHeader(details, key) {
 
 /* --- ファイル名に使えない文字を全角に直す --- */
 function replaceSpecialChars(filename) {
-	chars = ["\\",'/',':','*','?','a',"<",">",'|']
 	const chars = {
 		'\\' : '＼',
 		'/' : '／',
