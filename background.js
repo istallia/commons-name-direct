@@ -16,8 +16,10 @@ browser.webRequest.onHeadersReceived.addListener(details => {
 
 /* --- IDとタイトルのキャッシュを作成する --- */
 browser.runtime.onMessage.addListener((message, sender) => {
-	sessionStorage.setItem('commons-'+message.material_id, replaceSpecialChars(message.material_title));
-	console.log('commons-'+message.material_id, replaceSpecialChars(message.material_title));
+	if (message.content === 'material-id') {
+		sessionStorage.setItem('commons-'+message.material_id, replaceSpecialChars(message.material_title));
+		console.log('commons-'+message.material_id, replaceSpecialChars(message.material_title));
+	}
 });
 
 /* --- details.responseHeaders内のレスポンスヘッダを更新する関数 --- */
