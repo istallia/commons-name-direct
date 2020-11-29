@@ -10,13 +10,15 @@ if (page_url.startsWith('commons.nicovideo.jp/material') && !page_url.startsWith
 		material_id    : material_id,
 		material_title : material_title
 	});
-	// console.log(material_id, material_title);
+	sessionStorage.setItem('commons-'+material_id, material_title);
 	/* backgroundにオプションを問い合わせ、コピー機能がtrueならばボタンにイベントを登録する */
 	let asking_options = browser.runtime.sendMessage({content : 'get-option'}, options => {
 		if (options['copy-title']) {
 			let func = (pattern, event) => {
-				console.log('ボタンがクリックされたらしい。');
-				console.log(pattern);
+				const material_id    = page_url.slice(29).replace('/', '');
+				const material_title = sessionStorage.getItem('commons-'+material_id);
+				const copy_text      = pattern.replace('${id}', material_id).replace('${title}', material_title)
+				navigator.clipboard.writeText(copy_text);
 			};
 			document.querySelector("#material_left > div.commons_preview > div.commons_download > table > tbody > tr > td > div.center > a > input[type=image]").addEventListener('click', func.bind(this, options['title-pattern']));
 		}
