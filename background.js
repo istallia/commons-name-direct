@@ -1,8 +1,14 @@
 /* --- ヘッダの書き換え --- */
 if (typeof browser === 'undefined') browser = chrome;
 browser.webRequest.onHeadersReceived.addListener(details => {
-	// refererを 'http://example.com/' に書き換え:
-	setResponseHeader(details, 'Content-Disposition', 'attachment;');
+	const info_filename  = /filename="(.+)(\.\w{1,20})"/.exec(getResponseHeader(details, 'Content-Disposition'));
+	const material_id    = info_filename[1];
+	const material_ext   = info_filename[2];
+	const material_title = sessionStorage.getItem('commons-'+material_id);
+	const material_name  = '${id}_${title}'.replace('${id}', material_id).replace('${title}', material_title);
+	// console.log('attachment; filename="'+material_name+material_ext+'"; filename*=UTF-8\'\''+encodeURI(material_name)+material_ext);
+	setResponseHeader(details, 'Content-Disposition', 'attachment; filename="'+encodeURI(material_name)+material_ext+'"; filename*=UTF-8\'\''+encodeURI(material_name)+material_ext);
+	console.log(details);
 
 	return {
 		responseHeaders: details.responseHeaders,
@@ -14,10 +20,21 @@ browser.webRequest.onHeadersReceived.addListener(details => {
 	'blocking'
 ]);
 
-/* --- IDとタイトルのキャッシュを作成する --- */
-browser.runtime.onMessage.addListener((message, sender) => {
-	sessionStorage.setItem('commons-'+message.material_id, replaceSpecialChars(message.material_title));
-	console.log('commons-'+message.material_id, replaceSpecialChars(message.material_title));
+/* --- 拡張機能の各要素からのメッセージに反応する --- */
+browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
+	/* IDとタイトルのキャッシュを作成する */
+	if (message.content === 'material-id') {
+		sessionStorage.setItem('commons-'+message.material_id, replaceSpecialChars(message.material_title));
+		// console.log('commons-'+message.material_id, replaceSpecialChars(message.material_title));
+	}
+	/* オプションを送り返す */
+	if (message.content === 'get-option') {
+		sendResponse({
+			'copy-title'    : true,
+			'title-pattern' : '${title} (${id})'
+		});
+		return true;
+	}
 });
 
 /* --- details.responseHeaders内のレスポンスヘッダを更新する関数 --- */
@@ -50,7 +67,6 @@ function getResponseHeader(details, key) {
 
 /* --- ファイル名に使えない文字を全角に直す --- */
 function replaceSpecialChars(filename) {
-	chars = ["\\",'/',':','*','?','a',"<",">",'|']
 	const chars = {
 		'\\' : '＼',
 		'/' : '／',
