@@ -1,8 +1,14 @@
 /* --- ヘッダの書き換え --- */
 if (typeof browser === 'undefined') browser = chrome;
 browser.webRequest.onHeadersReceived.addListener(details => {
-	// refererを 'http://example.com/' に書き換え:
-	setResponseHeader(details, 'Content-Disposition', 'attachment;');
+	const info_filename  = /filename="(.+)(\.\w{1,20})"/.exec(getResponseHeader(details, 'Content-Disposition'));
+	const material_id    = info_filename[1];
+	const material_ext   = info_filename[2];
+	const material_title = sessionStorage.getItem('commons-'+material_id);
+	const material_name  = '${id}_${title}'.replace('${id}', material_id).replace('${title}', material_title);
+	// console.log('attachment; filename="'+material_name+material_ext+'"; filename*=UTF-8\'\''+encodeURI(material_name)+material_ext);
+	setResponseHeader(details, 'Content-Disposition', 'attachment; filename="'+encodeURI(material_name)+material_ext+'"; filename*=UTF-8\'\''+encodeURI(material_name)+material_ext);
+	console.log(details);
 
 	return {
 		responseHeaders: details.responseHeaders,

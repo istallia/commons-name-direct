@@ -18,3 +18,5 @@ with zipfile.ZipFile(zip_name, 'w', compression=zipfile.ZIP_DEFLATED) as new_zip
 	new_zip.write('icon_32.png')
 	new_zip.write('icon_48.png')
 	new_zip.write('icon_128.png')
+
+input('Complete.')
