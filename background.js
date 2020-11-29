@@ -1,3 +1,10 @@
+/* --- オプションの初期値を保存 --- */
+if (!localStorage.getItem('file_pattern')) {
+	localStorage.setItem('file_pattern', '${id}_${title}');
+	localStorage.setItem('copy_title', true);
+	localStorage.setItem('title_pattern', '${title} (${id})');
+}
+
 /* --- ヘッダの書き換え --- */
 if (typeof browser === 'undefined') browser = chrome;
 browser.webRequest.onHeadersReceived.addListener(details => {
@@ -5,10 +12,8 @@ browser.webRequest.onHeadersReceived.addListener(details => {
 	const material_id    = info_filename[1];
 	const material_ext   = info_filename[2];
 	const material_title = sessionStorage.getItem('commons-'+material_id);
-	const material_name  = '${id}_${title}'.replace('${id}', material_id).replace('${title}', material_title);
-	// console.log('attachment; filename="'+material_name+material_ext+'"; filename*=UTF-8\'\''+encodeURI(material_name)+material_ext);
+	const material_name  = localStorage.getItem('file_pattern').replace('${id}', material_id).replace('${title}', material_title);
 	setResponseHeader(details, 'Content-Disposition', 'attachment; filename="'+encodeURI(material_name)+material_ext+'"; filename*=UTF-8\'\''+encodeURI(material_name)+material_ext);
-	console.log(details);
 
 	return {
 		responseHeaders: details.responseHeaders,
@@ -30,11 +35,17 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 	/* オプションを送り返す */
 	if (message.content === 'get-option') {
 		sendResponse({
-			'file-pattern'  : '${id}_${title}',
-			'copy-title'    : true,
-			'title-pattern' : '${title} (${id})'
+			'file-pattern'  : localStorage.getItem('file_pattern'),
+			'copy-title'    : (localStorage.getItem('copy_title') === 'true'),
+			'title-pattern' : localStorage.getItem('title_pattern')
 		});
 		return true;
+	}
+	/* オプションを設定する */
+	if (message.content === 'set-option') {
+		localStorage.setItem('file_pattern', message['file-pattern']);
+		localStorage.setItem('copy_title', message['copy-title']);
+		localStorage.setItem('title_pattern', message['title-pattern']);
 	}
 });
 

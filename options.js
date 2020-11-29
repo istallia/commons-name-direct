@@ -14,5 +14,21 @@ document.addEventListener('DOMContentLoaded', () => {
 		document.getElementById('commons_file_pattern').value  = file_pattern;
 		document.getElementById('commons_copy_title').checked  = copy_title;
 		document.getElementById('commons_title_pattern').value = title_pattern;
+		document.getElementById('commons_file_pattern').addEventListener('input', sendOptions);
+		document.getElementById('commons_copy_title').addEventListener('change', sendOptions);
+		document.getElementById('commons_title_pattern').addEventListener('input', sendOptions);
 	});
 });
+
+/* --- backgroundに設定値を送る --- */
+let sendOptions = () => {
+	file_pattern  = document.getElementById('commons_file_pattern').value;
+	copy_title    = document.getElementById('commons_copy_title').checked;
+	title_pattern = document.getElementById('commons_title_pattern').value;
+	browser.runtime.sendMessage({
+		'content' : 'set-option',
+		'file-pattern' : file_pattern,
+		'copy-title' : copy_title,
+		'title-pattern' : title_pattern
+	});
+};
