@@ -1,1 +1,15 @@
 /* --- ページ全体を整える --- */
+div {
+	padding : 0.5rem 1rem;
+}
+input[type="text"] {
+	width : 90%;
+}
+label {
+	margin-top : 1rem;
+}
+
+/* --- 個別に調整 --- */
+label[for="commons_copy_title"] {
+	user-select : none;
+}

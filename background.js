@@ -30,6 +30,7 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 	/* オプションを送り返す */
 	if (message.content === 'get-option') {
 		sendResponse({
+			'file-pattern'  : '${id}_${title}',
 			'copy-title'    : true,
 			'title-pattern' : '${title} (${id})'
 		});
