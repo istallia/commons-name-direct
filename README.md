@@ -5,7 +5,7 @@
 
 ## 導入
 
-Chromeウェブストア、およびMozilla開発者センターで配布予定。  
+[Chromeウェブストア](https://chrome.google.com/webstore/detail/dedkmkiecahgahncgoclgielgeckhlgb)、および[Mozilla開発者センター](https://addons.mozilla.org/ja/firefox/addon/コモンズ素材名直送ツール/)で配布中。  
 サブスクライブするだけで機能は有効になる。
 
 ## 技術解説(兼 開発メモ)
