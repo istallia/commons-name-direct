@@ -1,7 +1,7 @@
 /* --- オプションの初期値を保存 --- */
 if (!localStorage.getItem('file_pattern')) {
 	localStorage.setItem('file_pattern', '${id}_${title}');
-	localStorage.setItem('copy_title', true);
+	localStorage.setItem('copy_title', false);
 	localStorage.setItem('title_pattern', '${title} (${id})');
 }
 
