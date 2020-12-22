@@ -18,6 +18,19 @@ document.addEventListener('DOMContentLoaded', () => {
 		document.getElementById('commons_copy_title').addEventListener('change', sendOptions);
 		document.getElementById('commons_title_pattern').addEventListener('input', sendOptions);
 	});
+	/* 選択のためのイベントを設定する */
+	const lines = [... document.getElementsByClassName('action-select')];
+	for (let td of lines) {
+		td.addEventListener('click', event => {
+			event.preventDefault();
+			let range = new Range();
+			range.selectNodeContents(event.currentTarget);
+			let selection = window.getSelection();
+			selection.removeAllRanges();
+			selection.addRange(range);
+			document.execCommand('copy');
+		});
+	}
 });
 
 /* --- backgroundに設定値を送る --- */
