@@ -28,3 +28,7 @@ if (page_url.startsWith('commons.nicovideo.jp/material') && !page_url.startsWith
 		}
 	});
 }
+
+
+/* --- httpsに誘導する --- */
+if (location.href.slice(4,5) !== 's') location.href = 'https://' + location.href.slice(7);
