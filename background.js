@@ -8,11 +8,12 @@ if (!localStorage.getItem('file_pattern')) {
 /* --- ヘッダの書き換え --- */
 if (typeof browser === 'undefined') browser = chrome;
 browser.webRequest.onHeadersReceived.addListener(details => {
-	const info_filename  = /filename="(.+)(\.\w{1,20})"/.exec(getResponseHeader(details, 'Content-Disposition'));
-	const material_id    = info_filename[1];
-	const material_ext   = info_filename[2];
-	const material_title = sessionStorage.getItem('commons-'+material_id);
-	const material_name  = replaceSpecialChars(localStorage.getItem('file_pattern').replace('${id}', material_id).replace('${title}', material_title));
+	const info_filename    = /filename="(.+)(\.\w{1,20})"/.exec(getResponseHeader(details, 'Content-Disposition'));
+	const material_id      = info_filename[1];
+	const material_ext     = info_filename[2];
+	const material_title   = sessionStorage.getItem('commons-title-'+material_id);
+	const material_creator = sessionStorage.getItem('commons-creator-'+material_id);
+	const material_name    = replaceSpecialChars(localStorage.getItem('file_pattern').replace('${id}', material_id).replace('${title}', material_title).replace('${creator}', material_creator));
 	setResponseHeader(details, 'Content-Disposition', 'attachment; filename="'+encodeURI(material_name)+material_ext+'"; filename*=UTF-8\'\''+encodeURI(material_name)+material_ext);
 
 	return {
@@ -29,8 +30,9 @@ browser.webRequest.onHeadersReceived.addListener(details => {
 browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 	/* IDとタイトルのキャッシュを作成する */
 	if (message.content === 'material-id') {
-		sessionStorage.setItem('commons-'+message.material_id, replaceSpecialChars(message.material_title));
-		// console.log('commons-'+message.material_id, replaceSpecialChars(message.material_title));
+		sessionStorage.setItem('commons-title-'+message.material_id, replaceSpecialChars(message.material_title));
+		sessionStorage.setItem('commons-creator-'+message.material_id, replaceSpecialChars(message.material_creator));
+		// console.log('commons-title-'+message.material_id, replaceSpecialChars(message.material_title));
 	}
 	/* オプションを送り返す */
 	if (message.content === 'get-option') {
@@ -87,7 +89,9 @@ function replaceSpecialChars(filename) {
 		'?' : '？',
 		'<' : '＜',
 		'>' : '＞',
-		'|' : '｜'
+		'|' : '｜',
+		'.' : '．',
+		',' : '，'
 	};
 	for (let char in chars) {
 		filename = filename.replace(char, chars[char]);

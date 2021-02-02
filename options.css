@@ -8,6 +8,11 @@ input[type="text"] {
 label {
 	margin-top : 1rem;
 }
+table { border-collapse: collapse; }
+table tr, table th, table td {
+	border  : solid 1px #001e3b;
+	padding : 0.2em;
+}
 
 /* --- 個別に調整 --- */
 label[for="commons_copy_title"] {
