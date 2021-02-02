@@ -24,7 +24,7 @@ if (page_url.startsWith('commons.nicovideo.jp/material') && !page_url.startsWith
 				const copy_text        = pattern.replace('${id}', material_id).replace('${title}', material_title).replace('${creator}', material_creator);
 				navigator.clipboard.writeText(copy_text);
 			};
-			document.querySelector("#material_left > div.commons_preview > div.commons_download > table > tbody > tr > td > div.center > a > input[type=image]").addEventListener('click', func.bind(this, options['title-pattern']));
+			document.querySelector('a[href*="/material/agreement/"] > input[type="button"]').addEventListener('click', func.bind(this, options['title-pattern']));
 		}
 	});
 }

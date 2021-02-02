@@ -1,7 +1,7 @@
 {
 	"manifest_version" : 2,
 	"name"             : "コモンズ素材名直送ツール",
-	"version"          : "0.1.1",
+	"version"          : "0.1.2",
 	"description"      : "ニコニ・コモンズにて素材名をファイル名に付加した状態でダウンロードできるようにする拡張機能",
 	"author"           : "istallia",
 	"icons" : {
