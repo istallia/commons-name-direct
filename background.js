@@ -15,7 +15,7 @@ browser.webRequest.onHeadersReceived.addListener(details => {
 	const material_title   = sessionStorage.getItem('commons-title-'+material_id);
 	const material_creator = sessionStorage.getItem('commons-creator-'+material_id);
 	/* タイトルや作者が正常にキャッシュされていたか確認 */
-	if (material_title === 'null' || material_creator === 'null') {
+	if (String(material_title) === 'null' || String(material_creator) === 'null') {
 		return {
 			responseHeaders: details.responseHeaders,
 		};
