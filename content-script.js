@@ -22,11 +22,13 @@ if (page_url.startsWith('commons.nicovideo.jp/material') && !page_url.startsWith
 	let asking_options = browser.runtime.sendMessage({content : 'get-option'}, options => {
 		if (options['copy-title']) {
 			let func = (pattern, event) => {
-				const material_id      = page_url.slice(29).replace('/', '');
-				const material_title   = sessionStorage.getItem('commons-title-'+material_id);
-				const material_creator = sessionStorage.getItem('commons-creator-'+material_id);
-				const copy_text        = pattern.replace('${id}', material_id).replace('${title}', material_title).replace('${creator}', material_creator);
-				navigator.clipboard.writeText(copy_text);
+				setTimeout(() => {
+					const material_id      = page_url.slice(29).replace('/', '');
+					const material_title   = sessionStorage.getItem('commons-title-'+material_id);
+					const material_creator = sessionStorage.getItem('commons-creator-'+material_id);
+					const copy_text        = pattern.replace('${id}', material_id).replace('${title}', material_title).replace('${creator}', material_creator);
+					navigator.clipboard.writeText(copy_text);
+				}, 0);
 			};
 			document.querySelector('a[href*="/material/agreement/"] > input[type="button"]').addEventListener('click', func.bind(this, options['title-pattern']));
 		}
