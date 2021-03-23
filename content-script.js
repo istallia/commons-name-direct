@@ -17,7 +17,7 @@ if (page_url.startsWith('commons.nicovideo.jp/material') && !page_url.startsWith
 		sessionStorage.setItem('commons-creator-'+material_id, material_creator);
 	};
 	sendData();
-	document.querySelector('a[href*="/material/agreement/"] > input[type="button"]').addEventListener('click', sendData);
+	document.querySelector('a[href*="/material/agreement/"] > span').addEventListener('click', sendData);
 	/* backgroundにオプションを問い合わせ、コピー機能がtrueならばボタンにイベントを登録する */
 	let asking_options = browser.runtime.sendMessage({content : 'get-option'}, options => {
 		if (options['copy-title']) {
@@ -30,7 +30,7 @@ if (page_url.startsWith('commons.nicovideo.jp/material') && !page_url.startsWith
 					navigator.clipboard.writeText(copy_text);
 				}, 0);
 			};
-			document.querySelector('a[href*="/material/agreement/"] > input[type="button"]').addEventListener('click', func.bind(this, options['title-pattern']));
+			document.querySelector('a[href*="/material/agreement/"] > span').addEventListener('click', func.bind(this, options['title-pattern']));
 		}
 	});
 }
