@@ -4,8 +4,8 @@ const page_url = location.href.replace('https://', '').replace('http://', '');
 if (page_url.startsWith('commons.nicovideo.jp/material') && !page_url.startsWith('commons.nicovideo.jp/material/agreement')) {
 	/* backgroundにコモンズIDとタイトル、制作者を送信する */
 	let sendData = () => {
-		const material_title    = document.querySelector('div.commons_title').innerText;
-		const material_creator  = document.querySelector('div.m_user_profile a.userlink').innerText;
+		const material_title    = document.querySelector('div.materialHeadTitle').innerText;
+		const material_creator  = document.querySelector('div.mUserProfile a.materialUsername').innerText;
 		const material_id       = page_url.slice(29).replace('/', '');
 		let sending_material_id = browser.runtime.sendMessage({
 			content          : 'material-id',
