@@ -1,13 +1,12 @@
 /* --- 素材ページに来たら色々と細工する --- */
 if (typeof browser === 'undefined') browser = chrome;
 const page_url = location.href.replace('https://', '').replace('http://', '');
-if (page_url.startsWith('commons.nicovideo.jp/material') && !page_url.startsWith('commons.nicovideo.jp/material/agreement')) {
+if (page_url.startsWith('commons.nicovideo.jp/material/nc') && !page_url.startsWith('commons.nicovideo.jp/material/agreement')) {
 	/* backgroundにコモンズIDとタイトル、制作者を送信する */
 	let sendData = () => {
 		const element_title    = document.querySelector('div.materialHeadTitle');
 		const element_creator  = document.querySelector('div.mUserProfile a.materialUsername');
-		const element_button   = document.querySelector('a[href*="/material/agreement/"] > span');
-		if (element_title === null || element_creator === null || element_button === null) {
+		if (element_title === null || element_creator === null) {
 			setTimeout(sendData, 200);
 			return;
 		}
@@ -22,22 +21,28 @@ if (page_url.startsWith('commons.nicovideo.jp/material') && !page_url.startsWith
 		});
 		sessionStorage.setItem('commons-title-'+material_id, material_title);
 		sessionStorage.setItem('commons-creator-'+material_id, material_creator);
-		/* backgroundにオプションを問い合わせ、コピー機能がtrueならばボタンにイベントを登録する */
+	};
+	sendData();
+}
+
+
+/* --- backgroundにオプションを問い合わせ、コピー機能がtrueならばボタンにイベントを登録する --- */
+document.addEventListener('DOMContentLoaded', () => {
+	if (page_url.startsWith('commons.nicovideo.jp/material/agreement/nc')) {
 		let asking_options = browser.runtime.sendMessage({content : 'get-option'}, options => {
 			if (options['copy-title']) {
 				let func = (pattern, event) => {
-					const material_id      = page_url.slice(29).replace('/', '');
+					const material_id      = page_url.slice(39).replace('/', '');
 					const material_title   = sessionStorage.getItem('commons-title-'+material_id);
 					const material_creator = sessionStorage.getItem('commons-creator-'+material_id);
 					const copy_text        = pattern.replace('${id}', material_id).replace('${title}', material_title).replace('${creator}', material_creator);
 					navigator.clipboard.writeText(copy_text);
 				};
-				element_button.addEventListener('click', func.bind(this, options['title-pattern']));
+				document.querySelector('form[action^="/material/download/nc"] > div').addEventListener('click', func.bind(this, options['title-pattern']));
 			}
 		});
-	};
-	sendData();
-}
+	}
+});
 
 
 /* --- httpsに誘導する --- */
