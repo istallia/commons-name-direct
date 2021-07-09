@@ -12,7 +12,7 @@ if (page_url.startsWith('commons.nicovideo.jp/material/nc') && !page_url.startsW
 		}
 		const material_title    = element_title.innerText;
 		const material_creator  = element_creator.innerText;
-		const material_id       = page_url.slice(29).replace('/', '');
+		const material_id       = page_url.slice(29).replace('/', '').replace(/\?.+$/g, '').replace(/\#.+$/g, '');
 		let sending_material_id = browser.runtime.sendMessage({
 			content          : 'material-id',
 			material_id      : material_id,
@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		let asking_options = browser.runtime.sendMessage({content : 'get-option'}, options => {
 			if (options['copy-title']) {
 				let func = (pattern, event) => {
-					const material_id      = page_url.slice(39).replace('/', '');
+					const material_id      = page_url.slice(39).replace('/', '').replace(/\?.+$/g, '').replace(/\#.+$/g, '');
 					const material_title   = sessionStorage.getItem('commons-title-'+material_id);
 					const material_creator = sessionStorage.getItem('commons-creator-'+material_id);
 					const copy_text        = pattern.replace('${id}', material_id).replace('${title}', material_title).replace('${creator}', material_creator);
