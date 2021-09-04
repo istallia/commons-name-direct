@@ -14,5 +14,5 @@ browser.webRequest.onHeadersReceived.addListener(details => {
 	}
 	return {};
 }, {
-	urls : ['https://commons.nicovideo.jp/search/*']
+	urls : ['https://commons.nicovideo.jp/search/keyword/*']
 }, ['blocking']);
