@@ -1,7 +1,7 @@
 {
 	"manifest_version" : 2,
 	"name"             : "コモンズ素材名直送ツール",
-	"version"          : "0.1.8",
+	"version"          : "0.2.0",
 	"description"      : "ニコニ・コモンズにて素材名をファイル名に付加した状態でダウンロードできるようにする拡張機能",
 	"author"           : "istallia",
 	"icons" : {
@@ -18,7 +18,8 @@
 	],
 	"background": {
 		"scripts": [
-			"background.js"
+			"background-rename.js",
+			"background-move.js"
 		],
 		"persistent": true
 	},
@@ -26,10 +27,9 @@
 		"page" : "options.html"
 	},
 	"permissions" : [
-		"http://deliver.commons.nicovideo.jp/download/*",
 		"https://deliver.commons.nicovideo.jp/download/*",
-		"http://commons.nicovideo.jp/material/*",
 		"https://commons.nicovideo.jp/material/*",
+		"https://commons.nicovideo.jp/search/keyword/*",
 		"webRequest",
 		"webRequestBlocking"
 	]
