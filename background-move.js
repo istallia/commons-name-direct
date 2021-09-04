@@ -3,7 +3,7 @@ if (typeof browser === 'undefined') browser = chrome;
 
 
 /* --- IDでの検索を素材ページに転送 --- */
-browser.webRequest.onHeadersReceived.addListener(details => {
+browser.webRequest.onBeforeRequest.addListener(details => {
 	/* 検索キーワードを取得 */
 	const url     = new URL(details.url);
 	const keyword = url.pathname.split('/').filter(text => text.length > 0).pop();
