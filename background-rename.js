@@ -5,6 +5,7 @@ if (!localStorage.getItem('file_pattern')) {
 	localStorage.setItem('title_pattern', '${title} (${id})');
 }
 
+
 /* --- ヘッダの書き換え --- */
 if (typeof browser === 'undefined') browser = chrome;
 browser.webRequest.onHeadersReceived.addListener(details => {
@@ -34,6 +35,7 @@ browser.webRequest.onHeadersReceived.addListener(details => {
 	'blocking'
 ]);
 
+
 /* --- 拡張機能の各要素からのメッセージに反応する --- */
 browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 	/* IDとタイトルのキャッシュを作成する */
@@ -59,6 +61,7 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 	}
 });
 
+
 /* --- details.responseHeaders内のレスポンスヘッダを更新する関数 --- */
 function setResponseHeader(details, key, val) {
 	key = key.toLowerCase();
@@ -75,6 +78,7 @@ function setResponseHeader(details, key, val) {
 	});
 }
 
+
 /* --- レスポンスヘッダを取得 --- */
 function getResponseHeader(details, key) {
 	key = key.toLowerCase();
@@ -86,6 +90,7 @@ function getResponseHeader(details, key) {
 	}
 	return null;
 }
+
 
 /* --- ファイル名に使えない文字を全角に直す --- */
 function replaceSpecialChars(filename) {
