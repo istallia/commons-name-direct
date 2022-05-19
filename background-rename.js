@@ -33,7 +33,7 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 							type : 'modifyHeaders'
 						},
 						condition : {
-							urlFilter : '*://deliver.commons.nicovideo.jp/download/*',
+							urlFilter : '*://deliver.commons.nicovideo.jp/download/' + message['material_id'],
 							resourceTypes : ['main_frame', 'sub_frame']
 						},
 						id : rule_id
