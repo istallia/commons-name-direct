@@ -2,22 +2,26 @@
 if (typeof browser === 'undefined') browser = chrome;
 const page_url = location.href.replace('https://', '').replace('http://', '');
 if (page_url.startsWith('commons.nicovideo.jp/material/nc') && !page_url.startsWith('commons.nicovideo.jp/material/agreement')) {
-	/* backgroundにコモンズIDとタイトル、制作者を送信する */
+	/* backgroundにコモンズIDとタイトル、制作者、拡張子を送信する */
 	let sendData = () => {
 		const element_title    = document.querySelector('div.materialHeadTitle');
 		const element_creator  = document.querySelector('div.mUserProfile a.materialUsername');
+		const element_ext      = document.querySelector('table.minfo > tbody > tr:nth-child(1) > td:nth-child(2)');
 		if (element_title === null || element_creator === null) {
 			setTimeout(sendData, 200);
 			return;
 		}
-		const material_title    = element_title.innerText;
-		const material_creator  = element_creator.innerText;
-		const material_id       = page_url.slice(29).replace('/', '').replace(/\?.+$/g, '').replace(/\#.+$/g, '');
+		const material_title   = element_title.innerText;
+		const material_creator = element_creator.innerText;
+		const material_ext     = element_ext.innerText;
+		const material_id      = page_url.slice(29).replace('/', '').replace(/\?.+$/g, '').replace(/\#.+$/g, '');
+		if (!material_ext) return;
 		let sending_material_id = browser.runtime.sendMessage({
 			content          : 'material-id',
 			material_id      : material_id,
 			material_title   : material_title,
-			material_creator : material_creator
+			material_creator : material_creator,
+			material_ext     : material_ext
 		});
 		sessionStorage.setItem('commons-title-'+material_id, material_title);
 		sessionStorage.setItem('commons-creator-'+material_id, material_creator);
