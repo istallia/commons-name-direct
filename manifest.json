@@ -23,8 +23,9 @@
 		"page" : "options.html"
 	},
 	"permissions" : [
-		"webRequest",
-		"webRequestBlocking"
+		"declarativeNetRequest",
+		"declarativeNetRequestWithHostAccess",
+		"storage"
 	],
 	"host_permissions" : [
 		"https://deliver.commons.nicovideo.jp/download/*",
