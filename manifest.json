@@ -29,6 +29,7 @@
 		"https://deliver.commons.nicovideo.jp/download/*",
 		"https://commons.nicovideo.jp/material/*",
 		"webRequest",
-		"webRequestBlocking"
+		"webRequestBlocking",
+		"storage"
 	]
 }

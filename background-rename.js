@@ -1,3 +1,5 @@
+if (typeof browser === 'undefined') browser = chrome;
+
 /* --- オプションの初期値を保存 --- */
 if (!localStorage.getItem('file_pattern')) {
 	localStorage.setItem('file_pattern', '${id}_${title}');
@@ -6,8 +8,15 @@ if (!localStorage.getItem('file_pattern')) {
 }
 
 
+/* --- Storage APIの領域にオプションを引っ越し --- */
+browser.storage.local.set({
+	file_pattern  : localStorage.getItem('file_pattern'),
+	copy_title    : localStorage.getItem('copy_title'),
+	title_pattern : localStorage.getItem('title_pattern')
+});
+
+
 /* --- ヘッダの書き換え --- */
-if (typeof browser === 'undefined') browser = chrome;
 browser.webRequest.onHeadersReceived.addListener(details => {
 	/* 組み立てに必要な情報を入手 */
 	const info_filename    = /filename="(.+)(\.\w{1,20})"/.exec(getResponseHeader(details, 'Content-Disposition'));
