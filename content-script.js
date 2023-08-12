@@ -37,7 +37,7 @@ if (page_url.startsWith('commons.nicovideo.jp/works/nc') && !page_url.startsWith
 				material_ext = matches[1];
 			}
 		} );
-		const material_id = page_url.slice(29).replace('/', '').replace(/\?.+$/g, '').replace(/\#.+$/g, '');
+		const material_id = page_url.slice(26).replace('/', '').replace(/\?.+$/g, '').replace(/\#.+$/g, '');
 		if (!material_ext) return;
 		let sending_material_id = browser.runtime.sendMessage({
 			content          : 'material-id',
@@ -78,7 +78,6 @@ const procRegistCopyEvent = () => {
 		const material_creator = sessionStorage.getItem('commons-creator-'+material_id);
 		const copy_text        = pattern.replace('${id}', material_id).replace('${title}', material_title).replace('${creator}', material_creator);
 		navigator.clipboard.writeText(copy_text);
-		console.log(copy_text);
 	};
 	button.addEventListener('click', func.bind(this, title_pattern_option));
 };
