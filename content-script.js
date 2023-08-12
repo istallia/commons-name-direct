@@ -58,7 +58,7 @@ let title_pattern_option = '';
 document.addEventListener('DOMContentLoaded', () => {
 	if (page_url.startsWith('commons.nicovideo.jp/works/agreement/nc')) {
 		let asking_options = browser.runtime.sendMessage({content : 'get-option'}, options => {
-			if (options['copy-title'] == 'true') {
+			if (options['copy-title']) {
 				title_pattern_option = options['title-pattern'];
 				setTimeout(procRegistCopyEvent, 200);
 			}
