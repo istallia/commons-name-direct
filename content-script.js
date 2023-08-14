@@ -44,7 +44,7 @@ if (page_url.startsWith('commons.nicovideo.jp/works/nc') && !page_url.startsWith
 			material_id      : material_id,
 			material_title   : material_title,
 			material_creator : material_creator,
-			material_ext     : material_ext
+			material_ext     : `.${material_ext}`
 		});
 		sessionStorage.setItem('commons-title-'+material_id, material_title);
 		sessionStorage.setItem('commons-creator-'+material_id, material_creator);
